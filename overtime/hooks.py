@@ -8,7 +8,7 @@ app_license = "mit"
 # Apps
 # ------------------
 
-# required_apps = []
+required_apps = ["frappe", "erpnext", "hrms"]
 
 # Each item in the list will be shown as an app in the apps page
 # add_to_apps_screen = [
@@ -43,7 +43,11 @@ app_license = "mit"
 # page_js = {"page" : "public/js/file.js"}
 
 # include js in doctype views
-# doctype_js = {"doctype" : "public/js/doctype.js"}
+doctype_js = {
+    "Attendance": "public/js/attendance.js",
+    "Employee": "public/js/employee.js",
+    "Salary Slip": "public/js/salary_slip.js",
+}
 # doctype_list_js = {"doctype" : "public/js/doctype_list.js"}
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
 # doctype_calendar_js = {"doctype" : "public/js/doctype_calendar.js"}
@@ -83,7 +87,7 @@ app_license = "mit"
 # ------------
 
 # before_install = "overtime.install.before_install"
-# after_install = "overtime.install.after_install"
+after_install = "overtime.overtime.setup.after_install"
 
 # Uninstallation
 # ------------
@@ -137,34 +141,36 @@ app_license = "mit"
 # ---------------
 # Hook on document methods and events
 
-# doc_events = {
-# 	"*": {
-# 		"on_update": "method",
-# 		"on_cancel": "method",
-# 		"on_trash": "method"
-# 	}
-# }
+doc_events = {
+    "Attendance": {
+        "on_submit": "overtime.overtime.events.on_attendance_submit",
+        "on_cancel": "overtime.overtime.events.on_attendance_cancel",
+    },
+    "Salary Slip": {
+        "before_validate": "overtime.overtime.events.on_salary_slip_validate",
+    },
+}
 
 # Scheduled Tasks
 # ---------------
 
-# scheduler_events = {
-# 	"all": [
-# 		"overtime.tasks.all"
-# 	],
-# 	"daily": [
-# 		"overtime.tasks.daily"
-# 	],
-# 	"hourly": [
-# 		"overtime.tasks.hourly"
-# 	],
-# 	"weekly": [
-# 		"overtime.tasks.weekly"
-# 	],
-# 	"monthly": [
-# 		"overtime.tasks.monthly"
-# 	],
-# }
+scheduler_events = {
+	# "all": [
+	# 	"overtime.tasks.all"
+	# ],
+	"daily": [
+        "overtime.overtime.events.daily_overtime_processing",
+    ],
+	# "hourly": [
+	# 	"overtime.tasks.hourly"
+	# ],
+	# "weekly": [
+	# 	"overtime.tasks.weekly"
+	# ],
+	# "monthly": [
+	# 	"overtime.tasks.monthly"
+	# ],
+}
 
 # Testing
 # -------
@@ -192,7 +198,7 @@ app_license = "mit"
 # Ignore links to specified DocTypes when deleting documents
 # -----------------------------------------------------------
 
-# ignore_links_on_delete = ["Communication", "ToDo"]
+ignore_links_on_delete = ["Overtime Entry"]
 
 # Request Events
 # ----------------
@@ -236,7 +242,7 @@ app_license = "mit"
 # ]
 
 # Automatically update python controller files with type annotations for this app.
-# export_python_type_annotations = True
+export_python_type_annotations = True
 
 # default_log_clearing_doctypes = {
 # 	"Logging DocType Name": 30  # days to retain logs
@@ -246,4 +252,3 @@ app_license = "mit"
 # ------------
 # List of apps whose translatable strings should be excluded from this app's translations.
 # ignore_translatable_strings_from = []
-

@@ -1,0 +1,197 @@
+{
+ "actions": [],
+ "creation": "2026-02-12 10:00:00",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "enabled",
+  "section_overtime_calculation",
+  "overtime_based_on",
+  "minimum_overtime_minutes",
+  "column_break_calc",
+  "max_overtime_hours_per_day",
+  "overtime_rounding",
+  "rounding_interval_minutes",
+  "section_rate",
+  "default_overtime_rate_multiplier",
+  "column_break_rate",
+  "holiday_overtime_rate_multiplier",
+  "section_approval",
+  "require_approval",
+  "column_break_approval",
+  "auto_create_overtime_entry",
+  "section_ramadan",
+  "ramadan_mode_enabled",
+  "ramadan_start_date",
+  "column_break_ramadan",
+  "ramadan_end_date"
+ ],
+ "fields": [
+  {
+   "default": "1",
+   "description": "Enable overtime tracking globally",
+   "fieldname": "enabled",
+   "fieldtype": "Check",
+   "label": "Enabled"
+  },
+  {
+   "fieldname": "section_overtime_calculation",
+   "fieldtype": "Section Break",
+   "label": "Overtime Calculation"
+  },
+  {
+   "default": "Shift Hours",
+   "description": "Calculate overtime based on shift hours or fixed working hours per day",
+   "fieldname": "overtime_based_on",
+   "fieldtype": "Select",
+   "label": "Overtime Based On",
+   "options": "Shift Hours\nFixed Daily Hours"
+  },
+  {
+   "default": "15",
+   "description": "Minimum minutes worked beyond shift to count as overtime. Set 0 to count every minute.",
+   "fieldname": "minimum_overtime_minutes",
+   "fieldtype": "Int",
+   "label": "Minimum Overtime (Minutes)"
+  },
+  {
+   "fieldname": "column_break_calc",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "4",
+   "description": "Maximum overtime hours allowed per day. Set 0 for unlimited.",
+   "fieldname": "max_overtime_hours_per_day",
+   "fieldtype": "Float",
+   "label": "Max Overtime Hours Per Day",
+   "precision": "2"
+  },
+  {
+   "default": "Round to Nearest",
+   "description": "How to round overtime minutes",
+   "fieldname": "overtime_rounding",
+   "fieldtype": "Select",
+   "label": "Overtime Rounding",
+   "options": "No Rounding\nRound Up\nRound Down\nRound to Nearest"
+  },
+  {
+   "default": "15",
+   "depends_on": "eval:doc.overtime_rounding!='No Rounding'",
+   "fieldname": "rounding_interval_minutes",
+   "fieldtype": "Int",
+   "label": "Rounding Interval (Minutes)"
+  },
+  {
+   "fieldname": "section_rate",
+   "fieldtype": "Section Break",
+   "label": "Overtime Rate"
+  },
+  {
+   "default": "1.5",
+   "description": "Multiplier for normal overtime (e.g., 1.5x)",
+   "fieldname": "default_overtime_rate_multiplier",
+   "fieldtype": "Float",
+   "label": "Default OT Rate Multiplier",
+   "precision": "2"
+  },
+  {
+   "fieldname": "column_break_rate",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "2.0",
+   "description": "Multiplier for overtime on holidays (e.g., 2x)",
+   "fieldname": "holiday_overtime_rate_multiplier",
+   "fieldtype": "Float",
+   "label": "Holiday OT Rate Multiplier",
+   "precision": "2"
+  },
+  {
+   "fieldname": "section_approval",
+   "fieldtype": "Section Break",
+   "label": "Workflow & Approval"
+  },
+  {
+   "default": "0",
+   "description": "If checked, overtime entries must be approved by a manager",
+   "fieldname": "require_approval",
+   "fieldtype": "Check",
+   "label": "Require Approval for Overtime"
+  },
+  {
+   "fieldname": "column_break_approval",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "1",
+   "description": "Automatically create Overtime Entry when attendance is processed and overtime is detected",
+   "fieldname": "auto_create_overtime_entry",
+   "fieldtype": "Check",
+   "label": "Auto-Create Overtime Entry"
+  },
+  {
+   "collapsible": 1,
+   "description": "Configure Ramadan period for special shift timings",
+   "fieldname": "section_ramadan",
+   "fieldtype": "Section Break",
+   "label": "Ramadan Settings"
+  },
+  {
+   "default": "0",
+   "description": "When enabled, Ramadan-specific shift rules will be used during the configured period",
+   "fieldname": "ramadan_mode_enabled",
+   "fieldtype": "Check",
+   "label": "Enable Ramadan Mode"
+  },
+  {
+   "depends_on": "eval:doc.ramadan_mode_enabled",
+   "fieldname": "ramadan_start_date",
+   "fieldtype": "Date",
+   "label": "Ramadan Start Date",
+   "mandatory_depends_on": "eval:doc.ramadan_mode_enabled"
+  },
+  {
+   "fieldname": "column_break_ramadan",
+   "fieldtype": "Column Break"
+  },
+  {
+   "depends_on": "eval:doc.ramadan_mode_enabled",
+   "fieldname": "ramadan_end_date",
+   "fieldtype": "Date",
+   "label": "Ramadan End Date",
+   "mandatory_depends_on": "eval:doc.ramadan_mode_enabled"
+  }
+ ],
+ "issingle": 1,
+ "links": [],
+ "modified": "2026-02-12 22:11:05.900801",
+ "modified_by": "Administrator",
+ "module": "Overtime",
+ "name": "Overtime Settings",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "read": 1,
+   "role": "HR Manager",
+   "write": 1
+  },
+  {
+   "read": 1,
+   "role": "HR User"
+  }
+ ],
+ "row_format": "Dynamic",
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

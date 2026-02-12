@@ -1,0 +1,294 @@
+{
+ "actions": [],
+ "autoname": "format:{shift_name}-{employee_category}-{applicable_period}",
+ "creation": "2026-02-12 10:00:00",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "shift_name",
+  "shift_type",
+  "applicable_period",
+  "column_break_basic",
+  "employee_category",
+  "department",
+  "enabled",
+  "section_timing",
+  "check_in_time",
+  "check_out_time",
+  "column_break_timing",
+  "total_shift_hours",
+  "is_overnight_shift",
+  "section_exception",
+  "allow_late_early_exception",
+  "late_early_grace_minutes",
+  "column_break_exception",
+  "section_food_break",
+  "has_food_break",
+  "food_break_duration_minutes",
+  "food_break_type",
+  "column_break_food",
+  "food_break_included_in_shift",
+  "section_overtime",
+  "overtime_eligible",
+  "min_overtime_minutes",
+  "column_break_overtime",
+  "max_overtime_hours",
+  "overtime_rate_multiplier",
+  "section_notes",
+  "notes"
+ ],
+ "fields": [
+  {
+   "description": "E.g., Factory Staff - Morning (Muslim Employees)",
+   "fieldname": "shift_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Shift Name",
+   "reqd": 1
+  },
+  {
+   "description": "Link to the HRMS Shift Type this rule applies to",
+   "fieldname": "shift_type",
+   "fieldtype": "Link",
+   "label": "HRMS Shift Type",
+   "options": "Shift Type"
+  },
+  {
+   "default": "Standard",
+   "description": "When this shift rule is active",
+   "fieldname": "applicable_period",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Applicable Period",
+   "options": "Standard\nRamadan",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_basic",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "All",
+   "description": "Which category of employees this rule applies to",
+   "fieldname": "employee_category",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Employee Category",
+   "options": "All\nMuslim\nNon-Muslim",
+   "reqd": 1
+  },
+  {
+   "description": "Optional: Apply only to specific department",
+   "fieldname": "department",
+   "fieldtype": "Link",
+   "label": "Department",
+   "options": "Department"
+  },
+  {
+   "default": "1",
+   "fieldname": "enabled",
+   "fieldtype": "Check",
+   "label": "Enabled"
+  },
+  {
+   "fieldname": "section_timing",
+   "fieldtype": "Section Break",
+   "label": "Shift Timing"
+  },
+  {
+   "description": "Standard check-in time for this shift",
+   "fieldname": "check_in_time",
+   "fieldtype": "Time",
+   "in_list_view": 1,
+   "label": "Check-In Time",
+   "reqd": 1
+  },
+  {
+   "description": "Standard check-out time for this shift",
+   "fieldname": "check_out_time",
+   "fieldtype": "Time",
+   "in_list_view": 1,
+   "label": "Check-Out Time",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_timing",
+   "fieldtype": "Column Break"
+  },
+  {
+   "description": "Automatically calculated from check-in/check-out (minus food break if excluded)",
+   "fieldname": "total_shift_hours",
+   "fieldtype": "Float",
+   "label": "Total Shift Hours",
+   "precision": "2",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "description": "Check if shift crosses midnight (e.g., 11:30 PM - 7:30 AM)",
+   "fieldname": "is_overnight_shift",
+   "fieldtype": "Check",
+   "label": "Overnight Shift"
+  },
+  {
+   "fieldname": "section_exception",
+   "fieldtype": "Section Break",
+   "label": "Late/Early Exception"
+  },
+  {
+   "default": "0",
+   "description": "Allow a grace period for late check-in or early check-out",
+   "fieldname": "allow_late_early_exception",
+   "fieldtype": "Check",
+   "label": "Allow Late/Early Exception"
+  },
+  {
+   "default": "15",
+   "depends_on": "eval:doc.allow_late_early_exception",
+   "description": "e.g., 15 means \u00b115 minutes tolerance",
+   "fieldname": "late_early_grace_minutes",
+   "fieldtype": "Int",
+   "label": "Grace Period (Minutes)"
+  },
+  {
+   "fieldname": "column_break_exception",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_food_break",
+   "fieldtype": "Section Break",
+   "label": "Food Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "has_food_break",
+   "fieldtype": "Check",
+   "label": "Has Food Break"
+  },
+  {
+   "default": "30",
+   "depends_on": "eval:doc.has_food_break",
+   "description": "Duration of food break in minutes",
+   "fieldname": "food_break_duration_minutes",
+   "fieldtype": "Int",
+   "label": "Food Break Duration (Minutes)"
+  },
+  {
+   "default": "Regular Break",
+   "depends_on": "eval:doc.has_food_break",
+   "fieldname": "food_break_type",
+   "fieldtype": "Select",
+   "label": "Food Break Type",
+   "options": "Regular Break\nSuhoor Break\nIftar Break"
+  },
+  {
+   "fieldname": "column_break_food",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "depends_on": "eval:doc.has_food_break",
+   "description": "If checked, food break time is excluded/deducted from total shift hours",
+   "fieldname": "food_break_included_in_shift",
+   "fieldtype": "Check",
+   "label": "Food Break Excluded from Shift Hours"
+  },
+  {
+   "fieldname": "section_overtime",
+   "fieldtype": "Section Break",
+   "label": "Overtime Settings"
+  },
+  {
+   "default": "1",
+   "description": "Whether employees on this shift can earn overtime",
+   "fieldname": "overtime_eligible",
+   "fieldtype": "Check",
+   "label": "Overtime Eligible"
+  },
+  {
+   "default": "0",
+   "depends_on": "eval:doc.overtime_eligible",
+   "description": "Minimum extra minutes to count as overtime (overrides global setting)",
+   "fieldname": "min_overtime_minutes",
+   "fieldtype": "Int",
+   "label": "Min Overtime Minutes"
+  },
+  {
+   "fieldname": "column_break_overtime",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "depends_on": "eval:doc.overtime_eligible",
+   "description": "Maximum overtime hours for this shift (0 = use global setting)",
+   "fieldname": "max_overtime_hours",
+   "fieldtype": "Float",
+   "label": "Max Overtime Hours",
+   "precision": "2"
+  },
+  {
+   "default": "0",
+   "depends_on": "eval:doc.overtime_eligible",
+   "description": "Override rate multiplier for this shift (0 = use global setting)",
+   "fieldname": "overtime_rate_multiplier",
+   "fieldtype": "Float",
+   "label": "OT Rate Multiplier",
+   "precision": "2"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "section_notes",
+   "fieldtype": "Section Break",
+   "label": "Notes"
+  },
+  {
+   "fieldname": "notes",
+   "fieldtype": "Small Text",
+   "label": "Notes"
+  }
+ ],
+ "links": [],
+ "modified": "2026-02-12 22:11:38.435246",
+ "modified_by": "Administrator",
+ "module": "Overtime",
+ "name": "Overtime Shift Rule",
+ "naming_rule": "Expression (old style)",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "HR Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "read": 1,
+   "role": "HR User",
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

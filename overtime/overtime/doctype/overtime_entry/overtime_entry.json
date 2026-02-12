@@ -1,0 +1,353 @@
+{
+ "actions": [],
+ "autoname": "OT-.#####",
+ "creation": "2026-02-12 10:00:00",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "employee",
+  "employee_name",
+  "department",
+  "column_break_emp",
+  "attendance_date",
+  "attendance",
+  "company",
+  "section_shift",
+  "shift_type",
+  "overtime_shift_rule",
+  "column_break_shift",
+  "shift_start_time",
+  "shift_end_time",
+  "scheduled_shift_hours",
+  "section_checkin",
+  "actual_check_in",
+  "actual_check_out",
+  "column_break_checkin",
+  "actual_working_hours",
+  "section_overtime_calc",
+  "overtime_hours",
+  "overtime_minutes",
+  "column_break_ot",
+  "overtime_rate_multiplier",
+  "is_holiday_overtime",
+  "section_status",
+  "status",
+  "column_break_status",
+  "approved_by",
+  "approval_date",
+  "section_food_break",
+  "food_break_deducted",
+  "food_break_minutes",
+  "section_remarks",
+  "remarks",
+  "amended_from"
+ ],
+ "fields": [
+  {
+   "fieldname": "employee",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Employee",
+   "options": "Employee",
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "fetch_from": "employee.employee_name",
+   "fieldname": "employee_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Employee Name",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "employee.department",
+   "fieldname": "department",
+   "fieldtype": "Link",
+   "in_standard_filter": 1,
+   "label": "Department",
+   "options": "Department",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_emp",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "attendance_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Attendance Date",
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "description": "Linked Attendance record",
+   "fieldname": "attendance",
+   "fieldtype": "Link",
+   "label": "Attendance",
+   "options": "Attendance",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "employee.company",
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "label": "Company",
+   "options": "Company",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_shift",
+   "fieldtype": "Section Break",
+   "label": "Shift Details"
+  },
+  {
+   "fieldname": "shift_type",
+   "fieldtype": "Link",
+   "in_standard_filter": 1,
+   "label": "Shift Type",
+   "options": "Shift Type",
+   "read_only": 1
+  },
+  {
+   "fieldname": "overtime_shift_rule",
+   "fieldtype": "Link",
+   "label": "Overtime Shift Rule",
+   "options": "Overtime Shift Rule",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_shift",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "shift_start_time",
+   "fieldtype": "Datetime",
+   "label": "Shift Start Time",
+   "read_only": 1
+  },
+  {
+   "fieldname": "shift_end_time",
+   "fieldtype": "Datetime",
+   "label": "Shift End Time",
+   "read_only": 1
+  },
+  {
+   "description": "Expected working hours based on shift rule",
+   "fieldname": "scheduled_shift_hours",
+   "fieldtype": "Float",
+   "label": "Scheduled Shift Hours",
+   "precision": "2",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_checkin",
+   "fieldtype": "Section Break",
+   "label": "Actual Check-In / Check-Out"
+  },
+  {
+   "fieldname": "actual_check_in",
+   "fieldtype": "Datetime",
+   "in_list_view": 1,
+   "label": "Actual Check-In",
+   "read_only": 1
+  },
+  {
+   "fieldname": "actual_check_out",
+   "fieldtype": "Datetime",
+   "in_list_view": 1,
+   "label": "Actual Check-Out",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_checkin",
+   "fieldtype": "Column Break"
+  },
+  {
+   "description": "Total hours worked (from attendance or checkins)",
+   "fieldname": "actual_working_hours",
+   "fieldtype": "Float",
+   "label": "Actual Working Hours",
+   "precision": "2",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_overtime_calc",
+   "fieldtype": "Section Break",
+   "label": "Overtime Calculation"
+  },
+  {
+   "bold": 1,
+   "description": "Hours of overtime worked",
+   "fieldname": "overtime_hours",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Overtime Hours",
+   "precision": "2",
+   "read_only": 1
+  },
+  {
+   "description": "Overtime in minutes (for granular tracking)",
+   "fieldname": "overtime_minutes",
+   "fieldtype": "Float",
+   "label": "Overtime Minutes",
+   "precision": "0",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_ot",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "1.5",
+   "description": "Multiplier applied to this overtime (e.g., 1.5x, 2x)",
+   "fieldname": "overtime_rate_multiplier",
+   "fieldtype": "Float",
+   "label": "OT Rate Multiplier",
+   "precision": "2"
+  },
+  {
+   "default": "0",
+   "description": "Whether this overtime was on a holiday",
+   "fieldname": "is_holiday_overtime",
+   "fieldtype": "Check",
+   "label": "Holiday Overtime"
+  },
+  {
+   "fieldname": "section_status",
+   "fieldtype": "Section Break",
+   "label": "Status & Approval"
+  },
+  {
+   "default": "Draft",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Status",
+   "options": "Draft\nPending Approval\nApproved\nRejected\nCancelled",
+   "read_only": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_status",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "approved_by",
+   "fieldtype": "Link",
+   "label": "Approved By",
+   "options": "User",
+   "read_only": 1
+  },
+  {
+   "fieldname": "approval_date",
+   "fieldtype": "Date",
+   "label": "Approval Date",
+   "read_only": 1
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "section_food_break",
+   "fieldtype": "Section Break",
+   "label": "Food Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "food_break_deducted",
+   "fieldtype": "Check",
+   "label": "Food Break Deducted",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "food_break_minutes",
+   "fieldtype": "Int",
+   "label": "Food Break Minutes",
+   "read_only": 1
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "section_remarks",
+   "fieldtype": "Section Break",
+   "label": "Remarks"
+  },
+  {
+   "fieldname": "remarks",
+   "fieldtype": "Small Text",
+   "label": "Remarks"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Overtime Entry",
+   "print_hide": 1,
+   "read_only": 1
+  }
+ ],
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2026-02-12 19:37:49.060549",
+ "modified_by": "Administrator",
+ "module": "Overtime",
+ "name": "Overtime Entry",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "amend": 1,
+   "cancel": 1,
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "amend": 1,
+   "cancel": 1,
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "HR Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "HR User",
+   "write": 1
+  },
+  {
+   "read": 1,
+   "role": "Employee"
+  }
+ ],
+ "row_format": "Dynamic",
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "employee_name",
+ "track_changes": 1
+}
