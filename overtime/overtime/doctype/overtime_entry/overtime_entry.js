@@ -12,54 +12,61 @@ frappe.ui.form.on("Overtime Entry", {
 		}[frm.doc.status] || "gray");
 
 		if (frm.doc.docstatus === 0) {
-			// Approve button (HR Manager / System Manager only)
-			if (
-				frm.doc.status !== "Approved" &&
-				(frappe.user_roles.includes("HR Manager") || frappe.user_roles.includes("System Manager"))
-			) {
-				frm.add_custom_button(__("Approve"), function () {
-					frappe.call({
-						method: "overtime.overtime.doctype.overtime_entry.overtime_entry.approve_overtime",
-						args: { name: frm.doc.name },
-						freeze: true,
-						freeze_message: __("Approving..."),
-						callback: function (r) {
-							if (!r.exc) {
-								frm.reload_doc();
-								frappe.show_alert({ message: __("Overtime Entry approved"), indicator: "green" });
-							}
-						},
-					});
-				}, __("Actions"));
+			frappe.db.get_single_value("Overtime Settings", "approval_role").then((approval_role) => {
+				let can_approve = false;
+				if (approval_role) {
+					can_approve = frappe.user_roles.includes(approval_role);
+				}
+				// Always allow System Manager / Administrator
+				if (frappe.user_roles.includes("System Manager") || frappe.session.user === "Administrator") {
+					can_approve = true;
+				}
 
-				// Reject button
-				frm.add_custom_button(__("Reject"), function () {
-					frappe.prompt(
-						{
-							fieldname: "reason",
-							label: __("Rejection Reason"),
-							fieldtype: "Small Text",
-							reqd: 1,
-						},
-						function (values) {
-							frappe.call({
-								method: "overtime.overtime.doctype.overtime_entry.overtime_entry.reject_overtime",
-								args: { name: frm.doc.name, reason: values.reason },
-								freeze: true,
-								freeze_message: __("Rejecting..."),
-								callback: function (r) {
-									if (!r.exc) {
-										frm.reload_doc();
-										frappe.show_alert({ message: __("Overtime Entry rejected"), indicator: "red" });
-									}
-								},
-							});
-						},
-						__("Reject Overtime"),
-						__("Reject")
-					);
-				}, __("Actions"));
-			}
+				if (frm.doc.status !== "Approved" && can_approve) {
+					frm.add_custom_button(__("Approve"), function () {
+						frappe.call({
+							method: "overtime.overtime.doctype.overtime_entry.overtime_entry.approve_overtime",
+							args: { name: frm.doc.name },
+							freeze: true,
+							freeze_message: __("Approving..."),
+							callback: function (r) {
+								if (!r.exc) {
+									frm.reload_doc();
+									frappe.show_alert({ message: __("Overtime Entry approved"), indicator: "green" });
+								}
+							},
+						});
+					}, __("Actions"));
+
+					// Reject button
+					frm.add_custom_button(__("Reject"), function () {
+						frappe.prompt(
+							{
+								fieldname: "reason",
+								label: __("Rejection Reason"),
+								fieldtype: "Small Text",
+								reqd: 1,
+							},
+							function (values) {
+								frappe.call({
+									method: "overtime.overtime.doctype.overtime_entry.overtime_entry.reject_overtime",
+									args: { name: frm.doc.name, reason: values.reason },
+									freeze: true,
+									freeze_message: __("Rejecting..."),
+									callback: function (r) {
+										if (!r.exc) {
+											frm.reload_doc();
+											frappe.show_alert({ message: __("Overtime Entry rejected"), indicator: "red" });
+										}
+									},
+								});
+							},
+							__("Reject Overtime"),
+							__("Reject")
+						);
+					}, __("Actions"));
+				}
+			});
 
 			// Recalculate button
 			if (frm.doc.employee && frm.doc.attendance_date) {

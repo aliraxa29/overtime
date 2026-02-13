@@ -18,6 +18,7 @@
   "holiday_overtime_rate_multiplier",
   "section_approval",
   "require_approval",
+  "approval_role",
   "column_break_approval",
   "auto_create_overtime_entry",
   "section_ramadan",
@@ -117,6 +118,15 @@
    "fieldname": "require_approval",
    "fieldtype": "Check",
    "label": "Require Approval for Overtime"
+  },
+  {
+   "depends_on": "eval:doc.require_approval",
+   "description": "Role allowed to approve/reject overtime entries. Users with this role will see Approve/Reject buttons.",
+   "fieldname": "approval_role",
+   "fieldtype": "Link",
+   "label": "Approval Role",
+   "mandatory_depends_on": "eval:doc.require_approval",
+   "options": "Role"
   },
   {
    "fieldname": "column_break_approval",

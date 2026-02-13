@@ -126,6 +126,13 @@ def get_employee_overtime_details(employee, month=None, year=None):
     total_days = len(entries)
     approved_hours = sum(flt(e.overtime_hours) for e in entries if e.status == "Approved")
     holiday_hours = sum(flt(e.overtime_hours) for e in entries if e.is_holiday_overtime)
+    total_payable_hours = sum(
+        flt(e.overtime_hours) * flt(e.overtime_rate_multiplier or 1)
+        for e in entries
+    )
+    approved_entries = len([e for e in entries if e.status == "Approved"])
+    pending_entries = len([e for e in entries if e.status == "Pending Approval"])
+    rejected_entries = len([e for e in entries if e.status == "Rejected"])
 
     return {
         "employee": employee,
@@ -133,9 +140,14 @@ def get_employee_overtime_details(employee, month=None, year=None):
         "month": month,
         "year": year,
         "total_overtime_hours": round(total_hours, 2),
+        "total_payable_hours": round(total_payable_hours, 2),
         "approved_overtime_hours": round(approved_hours, 2),
         "holiday_overtime_hours": round(holiday_hours, 2),
         "total_overtime_days": total_days,
+        "total_entries": total_days,
+        "approved_entries": approved_entries,
+        "pending_entries": pending_entries,
+        "rejected_entries": rejected_entries,
         "entries": entries,
     }
 
@@ -389,7 +401,7 @@ def get_employee_shift_info(employee, date=None):
     emp_data = frappe.db.get_value(
         "Employee", employee,
         ["employee_name", "default_shift", "department", "company",
-         "custom_employee_religion_category"],
+         "religion_category"],
         as_dict=True,
     )
     if not emp_data:

@@ -252,3 +252,5 @@ export_python_type_annotations = True
 # ------------
 # List of apps whose translatable strings should be excluded from this app's translations.
 # ignore_translatable_strings_from = []
+
+after_migrate = "overtime.overtime.setup.after_migrate"

@@ -190,14 +190,14 @@ def get_employee_category(employee):
     """
     Determine employee category (Muslim/Non-Muslim/All).
 
-    Reads Employee.custom_employee_religion_category (custom field
-    created by this app during installation).
+    Reads Employee.religion_category (custom field
+    created by this app during installation via setup.py).
 
     Returns:
       'Muslim', 'Non-Muslim', or 'All' as fallback
     """
     category = frappe.db.get_value(
-        "Employee", employee, "custom_employee_religion_category"
+        "Employee", employee, "religion_category"
     ) or ""
 
     if category:

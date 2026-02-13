@@ -16,6 +16,7 @@ class OvertimeSettings(Document):
     if TYPE_CHECKING:
         from frappe.types import DF
 
+        approval_role: DF.Link | None
         auto_create_overtime_entry: DF.Check
         default_overtime_rate_multiplier: DF.Float
         enabled: DF.Check
@@ -36,6 +37,11 @@ class OvertimeSettings(Document):
         self.validate_rounding()
         self.validate_ramadan_dates()
         self.validate_multipliers()
+        self.validate_approval_role()
+
+    def validate_approval_role(self):
+        if cint(self.require_approval) and not self.approval_role:
+            frappe.throw(_("Approval Role is required when Require Approval is enabled."))
 
     def validate_rounding(self):
         if self.overtime_rounding != "No Rounding":

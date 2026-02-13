@@ -56,6 +56,9 @@ def after_install():
     create_default_shift_types()
     create_default_shift_rules()
     frappe.db.commit()
+    
+def after_migrate():
+    create_custom_fields(CUSTOM_FIELDS, update=True)
 
 
 def create_overtime_salary_component():

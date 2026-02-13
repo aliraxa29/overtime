@@ -153,9 +153,30 @@ class OvertimeEntry(Document):
                 self.status = "Draft"
 
 
+def _check_approval_permission():
+    """Check if current user has the configured approval role."""
+    settings = frappe.get_cached_doc("Overtime Settings")
+    if not cint(settings.require_approval):
+        return
+
+    approval_role = settings.approval_role
+    if not approval_role:
+        return
+
+    user_roles = frappe.get_roles(frappe.session.user)
+    if approval_role not in user_roles and "Administrator" not in user_roles:
+        frappe.throw(
+            _("You do not have the required role ({0}) to approve/reject overtime entries.").format(
+                approval_role
+            )
+        )
+
+
 @frappe.whitelist()
 def approve_overtime(name):
     """Approve an overtime entry."""
+    _check_approval_permission()
+
     doc = frappe.get_doc("Overtime Entry", name)
     if doc.docstatus != 0:
         frappe.throw(_("Only draft entries can be approved."))
@@ -171,6 +192,8 @@ def approve_overtime(name):
 @frappe.whitelist()
 def reject_overtime(name, reason=None):
     """Reject an overtime entry."""
+    _check_approval_permission()
+
     doc = frappe.get_doc("Overtime Entry", name)
     if doc.docstatus != 0:
         frappe.throw(_("Only draft entries can be rejected."))
