@@ -1,5 +1,11 @@
 # Overtime Management for HRMS v15
 
+[![CI](https://github.com/aliraxa29/overtime/actions/workflows/ci.yml/badge.svg)](https://github.com/aliraxa29/overtime/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
+[![Frappe v15](https://img.shields.io/badge/Frappe-v15-blue.svg)](https://frappeframework.com/)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
+
 A Frappe/HRMS v15 app that **automatically calculates overtime hours** from Employee Checkin records. Supports overnight shifts, Ramadan schedules with religion-based rules, configurable rounding, rate multipliers, and an approval workflow.
 
 ---
@@ -290,15 +296,49 @@ tail -f logs/scheduler.log | grep overtime
 
 ## Contributing
 
+We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for details on how to get started.
+
+### Quick Start for Contributors
+
 ```bash
-cd apps/overtime
+# Fork and clone your fork
+git clone https://github.com/YOUR_USERNAME/overtime.git
+cd overtime
+
+# Install pre-commit hooks
+pip install pre-commit
 pre-commit install
+
+# Create a feature branch
+git checkout -b feature/your-feature-name
 ```
 
-Uses: ruff, eslint, prettier, pyupgrade
+**Tools Used**: ruff, eslint, prettier, pyupgrade
+
+Please read our:
+- [Contributing Guide](CONTRIBUTING.md) - How to contribute
+- [Code of Conduct](CODE_OF_CONDUCT.md) - Community guidelines
+- [Security Policy](SECURITY.md) - How to report vulnerabilities
 
 ---
 
 ## License
 
-MIT
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+---
+
+## Acknowledgments
+
+- [Frappe Framework](https://frappeframework.com/) - The underlying web framework
+- [HRMS](https://frappehr.com/) - Human Resource Management System
+- All [contributors](https://github.com/aliraxa29/overtime/graphs/contributors) who help improve this project
+
+---
+
+## Support
+
+- 📖 [Documentation](https://github.com/aliraxa29/overtime#readme)
+- 🐛 [Report a Bug](https://github.com/aliraxa29/overtime/issues/new?template=bug_report.md)
+- 💡 [Request a Feature](https://github.com/aliraxa29/overtime/issues/new?template=feature_request.md)
+- ❓ [Ask a Question](https://github.com/aliraxa29/overtime/issues/new?template=question.md)

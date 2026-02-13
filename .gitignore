@@ -1,7 +1,110 @@
-.DS_Store
-*.pyc
-*.egg-info
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# PyInstaller
+*.manifest
+*.spec
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+
+# Translations
+*.mo
+*.pot
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# IDE / Editor
+.idea/
+.vscode/
 *.swp
+*.swo
+*.sublime-workspace
+*.sublime-project
+.project
+.pydevproject
+.spyderproject
+.spyproject
+.ropeproject
 tags
-node_modules
-__pycache__
+TAGS
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Node
+node_modules/
+npm-debug.log
+yarn-error.log
+package-lock.json
+yarn.lock
+
+# Frontend build artifacts
+*.bundle.js
+*.bundle.js.map
+
+# Frappe specific
+*.pyc
+*.swp
+*.swo
+.wnf
+sites/
+archived_sites/
+env/
+logs/
+config/
+
+# Testing
+.bench
+test_site/

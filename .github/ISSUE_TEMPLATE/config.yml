@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Frappe Forum
+    url: https://discuss.frappe.io/
+    about: Ask questions about Frappe framework on the community forum
+  - name: HRMS Documentation
+    url: https://frappehr.com/docs
+    about: Official HRMS documentation for shift and attendance setup
