@@ -7,7 +7,6 @@ A Frappe/HRMS v15 app that **automatically calculates overtime hours** from Empl
 ## Table of Contents
 
 - [Features](#features)
-- [Architecture](#architecture)
 - [Installation](#installation)
 - [Configuration](#configuration)
   - [Overtime Settings](#overtime-settings)
@@ -19,7 +18,6 @@ A Frappe/HRMS v15 app that **automatically calculates overtime hours** from Empl
   - [Ramadan Mode](#ramadan-mode)
   - [Shift Rule Matching (Scoring)](#shift-rule-matching-scoring)
 - [Shift Schedule Reference](#shift-schedule-reference)
-- [API Reference](#api-reference)
 - [DocTypes](#doctypes)
 - [Extending / Customization](#extending--customization)
 - [Troubleshooting](#troubleshooting)
@@ -44,51 +42,6 @@ A Frappe/HRMS v15 app that **automatically calculates overtime hours** from Empl
 | **Bulk operations** | Recalculate / bulk-submit overtime via API |
 | **Daily scheduler** | Fallback daily job to catch missed attendance events |
 | **Attendance sync** | Overtime hours and entry link written back to Attendance record |
-
----
-
-## Architecture
-
-```
-┌─────────────────────────────────────────────────────┐
-│  Employee Checkin                                   │
-│  (IN @ 07:25, OUT @ 16:45)                          │
-└───────────────┬─────────────────────────────────────┘
-                │  HRMS auto-attendance
-                ▼
-┌─────────────────────────────────────────────────────┐
-│  Attendance (submitted)                             │
-│  working_hours = 9.33, shift = Morning              │
-└───────────────┬─────────────────────────────────────┘
-                │  doc_events → on_submit hook
-                ▼
-┌─────────────────────────────────────────────────────┐
-│  Overtime App (utils.py)                            │
-│  1. Load Overtime Settings                          │
-│  2. Match best Overtime Shift Rule (scoring)        │
-│  3. Get checkin logs for that attendance             │
-│  4. Compute actual vs scheduled hours               │
-│  5. Deduct food breaks + apply grace                │
-│  6. Apply rounding, min/max caps                    │
-│  7. Apply rate multiplier (normal/holiday)          │
-└───────────────┬─────────────────────────────────────┘
-                │
-                ▼
-┌─────────────────────────────────────────────────────┐
-│  Overtime Entry (Draft or Submitted)                │
-│  overtime_hours = 1.25                              │
-│  rate_multiplier = 1.5                              │
-│  payable_overtime_hours = 1.875                     │
-│  status = Draft → Approved → Submitted             │
-└───────────────┬─────────────────────────────────────┘
-                │  on_submit
-                ▼
-┌─────────────────────────────────────────────────────┐
-│  Attendance record updated                          │
-│  overtime_hours = 1.25                       │
-│  overtime_entry = OT-HR-EMP-0001-0001        │
-└─────────────────────────────────────────────────────┘
-```
 
 ---
 
@@ -268,81 +221,6 @@ The highest-scoring enabled rule wins. Ties are broken by the DB ordering.
 
 ---
 
-## API Reference
-
-All endpoints require authentication. Call via `desk.call()` or `frappe.call()`.
-
-### `overtime.overtime.api.overtime.get_overtime_summary`
-
-Get overtime summary for an employee in a given month.
-
-```python
-frappe.call(
-    method="overtime.overtime.api.overtime.get_overtime_summary",
-    args={
-        "employee": "HR-EMP-0001",
-        "month": "2025-03"     # YYYY-MM format
-    }
-)
-```
-
-**Response:**
-```json
-{
-    "message": {
-        "employee": "HR-EMP-0001",
-        "month": "2025-03",
-        "total_overtime_hours": 12.5,
-        "total_payable_hours": 18.75,
-        "total_entries": 8,
-        "approved_entries": 6,
-        "pending_entries": 2,
-        "rejected_entries": 0,
-        "entries": [...]
-    }
-}
-```
-
-### `overtime.overtime.api.overtime.recalculate_overtime`
-
-Recalculate overtime for a date range (max 31 days). Deletes existing draft entries and recalculates.
-
-```python
-frappe.call(
-    method="overtime.overtime.api.overtime.recalculate_overtime",
-    args={
-        "employee": "HR-EMP-0001",
-        "from_date": "2025-03-01",
-        "to_date": "2025-03-31"
-    }
-)
-```
-
-### `overtime.overtime.api.overtime.bulk_submit_overtime`
-
-Bulk-submit multiple Overtime Entry records.
-
-```python
-frappe.call(
-    method="overtime.overtime.api.overtime.bulk_submit_overtime",
-    args={
-        "entries": ["OT-HR-EMP-0001-0001", "OT-HR-EMP-0001-0002"]
-    }
-)
-```
-
-### `overtime.overtime.api.overtime.get_overtime_settings`
-
-Get current Overtime Settings (for frontend display).
-
-```python
-frappe.call(
-    method="overtime.overtime.api.overtime.get_overtime_settings"
-)
-```
-
----
-
 ## DocTypes
 
 ### Overtime Settings (Single)
@@ -406,37 +284,6 @@ bench --site your-site.local console
 
 # Check scheduler logs
 tail -f logs/scheduler.log | grep overtime
-```
-
----
-
-## File Structure
-
-```
-overtime/
-├── README.md                           # This file
-├── pyproject.toml                      # Package metadata
-├── overtime/
-│   ├── __init__.py
-│   ├── hooks.py                        # App hooks (doc_events, scheduler, fixtures)
-│   └── overtime/
-│       ├── __init__.py
-│       ├── setup.py                    # after_install: custom fields + default data
-│       ├── utils.py                    # Core overtime calculation engine
-│       ├── hooks_handler.py            # Attendance event handlers + scheduler
-│       ├── api/
-│       │   ├── __init__.py
-│       │   └── overtime.py             # Whitelisted API endpoints
-│       └── doctype/
-│           ├── overtime_settings/
-│           │   ├── overtime_settings.json
-│           │   └── overtime_settings.py
-│           ├── overtime_shift_rule/
-│           │   ├── overtime_shift_rule.json
-│           │   └── overtime_shift_rule.py
-│           └── overtime_entry/
-│               ├── overtime_entry.json
-│               └── overtime_entry.py
 ```
 
 ---
