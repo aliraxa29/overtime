@@ -1,47 +1,15 @@
 [project]
 name = "overtime"
 authors = [
-    { name = "Ali Raza", email = "ar.frappe.dev@gmail.com"}
+    { name = "Ali Raxa", email = "ar.frappe.dev@gmail.com"}
 ]
 description = "Overtime management app for Frappe HRMS - automatic overtime calculation from employee checkins"
 requires-python = ">=3.10"
 readme = "README.md"
-license = {text = "MIT"}
 dynamic = ["version"]
-keywords = [
-    "frappe",
-    "erpnext",
-    "hrms",
-    "overtime",
-    "attendance",
-    "payroll",
-    "shift-management"
-]
-classifiers = [
-    "Development Status :: 5 - Production/Stable",
-    "Environment :: Web Environment",
-    "Framework :: Frappe",
-    "Intended Audience :: Developers",
-    "Intended Audience :: End Users/Desktop",
-    "License :: OSI Approved :: MIT License",
-    "Operating System :: OS Independent",
-    "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.10",
-    "Programming Language :: Python :: 3.11",
-    "Programming Language :: Python :: 3.12",
-    "Topic :: Office/Business :: Financial :: Accounting",
-    "Topic :: Office/Business",
-]
 dependencies = [
     # "frappe~=15.0.0" # Installed and managed by bench.
 ]
-
-[project.urls]
-Homepage = "https://github.com/aliraxa29/overtime"
-Documentation = "https://github.com/aliraxa29/overtime#readme"
-Repository = "https://github.com/aliraxa29/overtime.git"
-Issues = "https://github.com/aliraxa29/overtime/issues"
-Changelog = "https://github.com/aliraxa29/overtime/blob/main/CHANGELOG.md"
 
 [build-system]
 requires = ["flit_core >=3.4,<4"]
